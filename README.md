@@ -1,8 +1,5 @@
 # OCR - API documentation
-Simple Api for convert captcha image (and any ocr type image) to text with pertained hugging face images.
-
-Based on python, FastApi
-Use Docker and Docker Compose for deployment
+This API uses a pre-trained model from hugging face to convert captcha images into text. It is based on Python and uses FastApi, Docker and Docker Compose in order to provide a simple, fast and efficient way to convert images into text.
 
 ![assets/ocr.png](assets/ocr.png)
 - [OCR - API documentation](#ocr---api-documentation)
