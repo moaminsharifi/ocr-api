@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+redis
+celery
+httpx
+pytest
+httpx[http2]
+httpx[socks]
+pydantic
+pydantic[dotenv]
+opencv-python-headless
+sentencepiece

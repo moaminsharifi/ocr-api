@@ -1,0 +1,30 @@
+version: '3'
+networks:
+  api_network:
+    name: ${API_NETWORK_NAME}
+volumes:
+  ocr-api-python-package-data:
+  ocr-api-python-hugging-face:
+
+services:
+
+
+
+  ocr-api:
+    build: ./api/_docker/${ENVIRONMENT}
+    hostname: ocr-api
+    container_name: "ocr-api"
+    platform: linux/amd64
+    volumes:
+      - ./api:/app
+      - ocr-api-python-package-data:/usr/local/lib/python3.10/dist-packages
+      - ocr-api-python-hugging-face:/root/.config/huggingface
+
+    networks:
+      - api_network 
+    env_file:
+      - ./api/.env
+    environment:
+      API_TOKEN: "${API_TOKEN}"
+    ports:
+      - ${EXPOSED_API_PORT}:${INTERNAL_API_PORT}
