@@ -14,9 +14,9 @@ img_width = 200
 img_height = 50
 
 
-def encode_single_sample(img):
+def encode_single_sample(img_path):
     # 1. Read image
-    img = tf.convert_to_tensor(img)
+    img = tf.io.read_file(img_path)
     # 2. Decode and convert to grayscale
     img = tf.io.decode_png(img, channels=1)
     # 3. Convert to float32 in [0, 1] range
@@ -54,17 +54,17 @@ def decode_batch_predictions(pred, max_length=5):
     return output_text
 
 
-def process_image_with_deep_learning_model(image: np.array) -> str:
+def process_image_with_deep_learning_model(image_path) -> str:
     """process image with deep learning model
 
     Args:
-        image (np.array): input image to
+        image (str): input image path
 
     Returns:
         str: output result as a string
     """
 
-    img = encode_single_sample(image)
+    img = encode_single_sample(image_path)
 
     prediction_model = get_model()
 
@@ -73,7 +73,7 @@ def process_image_with_deep_learning_model(image: np.array) -> str:
     return pred_texts[0]
 
 
-def base_64_to_image(base64_string: str) -> np.array:
+def base_64_to_image(base64_string: str):
     """Take in base64 string and return cv image
 
     Args:
@@ -83,9 +83,7 @@ def base_64_to_image(base64_string: str) -> np.array:
         np.array: numpy array image
     """
     img_data = base64.b64decode(str(base64_string))
-    img = Image.open(io.BytesIO(img_data))
-    opencv_img = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2RGB)
-    return opencv_img
+    return img_data
 
 
 def pre_process_captcha_image(img_data: np.array) -> np.array:
