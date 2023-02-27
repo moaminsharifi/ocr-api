@@ -9,8 +9,10 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 import numpy as np
+
 img_width = 200
 img_height = 50
+
 
 def encode_single_sample(img):
     # 1. Read image
@@ -23,13 +25,13 @@ def encode_single_sample(img):
     img = tf.image.resize(img, [img_height, img_width])
     # 5. Transpose the image because we want the time
     # dimension to correspond to the width of the image.
-    img = tf.transpose(img, perm=[1, 0, 2])    
+    img = tf.transpose(img, perm=[1, 0, 2])
     # 6. Return a dict as our model is expecting two inputs
     return tf.reshape(img, [1, img_width, img_height, 1])
 
 
-def decode_batch_predictions(pred , max_length = 5):
-    characters = sorted(list(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']))
+def decode_batch_predictions(pred, max_length=5):
+    characters = sorted(list(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]))
 
     # Mapping characters to integers
     char_to_num = layers.StringLookup(vocabulary=list(characters), mask_token=None)
@@ -38,7 +40,7 @@ def decode_batch_predictions(pred , max_length = 5):
     num_to_char = layers.StringLookup(
         vocabulary=char_to_num.get_vocabulary(), mask_token=None, invert=True
     )
-    
+
     input_len = np.ones(pred.shape[0]) * pred.shape[1]
     # Use greedy search. For complex tasks, you can use beam search
     results = keras.backend.ctc_decode(pred, input_length=input_len, greedy=True)[0][0][
@@ -52,7 +54,6 @@ def decode_batch_predictions(pred , max_length = 5):
     return output_text
 
 
-
 def process_image_with_deep_learning_model(image: np.array) -> str:
     """process image with deep learning model
 
@@ -64,10 +65,8 @@ def process_image_with_deep_learning_model(image: np.array) -> str:
     """
 
     img = encode_single_sample(image)
-    
-    prediction_model = get_model()
 
-    
+    prediction_model = get_model()
 
     preds = prediction_model.predict(img)
     pred_texts = decode_batch_predictions(preds)

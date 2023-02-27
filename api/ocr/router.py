@@ -16,6 +16,5 @@ async def process(request: ProcessOcrRequest):
     except:
         raise ValueError("Invalid image: %s" % request.image)
 
-
     result = process_image_with_deep_learning_model(image)
     return {"data": result}

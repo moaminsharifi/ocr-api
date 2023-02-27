@@ -7,7 +7,6 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 
-
 class Settings(BaseSettings):
     app_name: str = "API"
     app_env: str = "localhost"
@@ -19,7 +18,7 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_model():
-    model = tf.keras.models.load_model('ocr-model')
+    model = tf.keras.models.load_model("ocr-model")
 
     return keras.models.Model(
         model.get_layer(name="image").input, model.get_layer(name="dense2").output
