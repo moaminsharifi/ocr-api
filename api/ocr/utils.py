@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 import cv2
 
-from config import get_model, get_processor
+from config import get_model
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
