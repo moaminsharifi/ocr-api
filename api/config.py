@@ -2,6 +2,13 @@ from pydantic import BaseSettings
 from functools import lru_cache
 from transformers import TrOCRProcessor, VisionEncoderDecoderModel
 
+import os
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+import numpy as np
+
 
 class Settings(BaseSettings):
     app_name: str = "API"
@@ -14,7 +21,11 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_model():
-    return VisionEncoderDecoderModel.from_pretrained("/app/trocr-small-printed")
+    model = tf.keras.models.load_model('ocr-model')
+
+    return keras.models.Model(
+        model.get_layer(name="image").input, model.get_layer(name="dense2").output
+    )
 
 
 @lru_cache()
