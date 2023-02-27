@@ -1,7 +1,5 @@
 FROM continuumio/miniconda3
-
 RUN conda install -c conda-forge tensorflow -y
-RUN conda install -c huggingface transformers -y
 RUN conda install -c pytorch pytorch -y
 RUN conda install -c anaconda pillow -y
 

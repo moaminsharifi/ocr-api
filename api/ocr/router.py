@@ -16,7 +16,6 @@ async def process(request: ProcessOcrRequest):
     except:
         raise ValueError("Invalid image: %s" % request.image)
 
-    processed_image = pre_process_captcha_image(image)
 
-    result = process_image_with_deep_learning_model(processed_image)
+    result = process_image_with_deep_learning_model(image)
     return {"data": result}
